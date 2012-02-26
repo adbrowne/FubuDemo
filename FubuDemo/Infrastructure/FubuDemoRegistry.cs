@@ -3,9 +3,9 @@ using FubuMVC.Spark;
 
 namespace FubuDemo.Infrastructure
 {
-    public class FubuMoviesRegistry : FubuRegistry
+    public class FubuDemoRegistry : FubuRegistry
     {
-        public FubuMoviesRegistry()
+        public FubuDemoRegistry()
         {
             IncludeDiagnostics(true);
 
