@@ -6,7 +6,7 @@ namespace FubuDemo.Service
     class MovieService : IMovieService
     {
         private readonly Dictionary<int, Movie> movies = new Dictionary<int, Movie>();
-
+        private int nextId;
         public Movie Get(int id)
         {
             return movies[id];
@@ -14,6 +14,8 @@ namespace FubuDemo.Service
 
         public void Add(Movie movie)
         {
+            movie.Id = nextId;
+            nextId++;
             movies.Add(movie.Id, movie);
         }
 
