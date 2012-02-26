@@ -3,6 +3,6 @@ obj
 _Resharper.*
 *.user
 *.suo
-src/fubu-content/fubumvc-diagnostics/
+FubuDemo/fubu-content/fubumvc-diagnostics/
 *.swp
 *~

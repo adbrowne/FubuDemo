@@ -5,7 +5,7 @@ namespace FubuDemo.Service
 {
     class MovieService : IMovieService
     {
-        private static readonly Dictionary<int, Movie> movies = new Dictionary<int, Movie>();
+        private readonly Dictionary<int, Movie> movies = new Dictionary<int, Movie>();
 
         public Movie Get(int id)
         {

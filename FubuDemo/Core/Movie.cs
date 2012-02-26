@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace FubuDemo.Core
+﻿namespace FubuDemo.Core
 {
     public class Movie
     {
