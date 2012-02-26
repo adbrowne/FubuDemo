@@ -1,0 +1,196 @@
+====
+Movie Controller
+====
+using System.Collections.Generic;
+using FubuDemo.Core;
+using FubuDemo.Service;
+
+namespace FubuDemo.Web
+{
+    public class MovieController
+    {
+        private readonly IMovieService movieService;
+
+        public MovieController(IMovieService movieService)
+        {
+            this.movieService = movieService;
+        }
+
+        public MovieListViewModel get_movies(MovieListInputModel input)
+        {
+            return new MovieListViewModel
+                       {
+                           Movies = movieService.All()
+                       }; 
+        }
+
+        public MovieEditViewModel get_movies_edit(MovieEditInputModel input)
+        {
+            var movie = movieService.Get(input.Id);
+            return new MovieEditViewModel
+                       {
+                           Name = movie.Name,
+                           Description = movie.Description
+                       };
+        }
+
+        public MovieUpdatedViewModel post_movies_edit(MovieUpdateInputModel input)
+        {
+            var movie = movieService.Get(input.Id);
+            movie.Name = input.Name;
+            movie.Description = input.Description;
+            movieService.Update(movie);
+            return new MovieUpdatedViewModel
+                       {
+                           Movie = movie
+                       };
+        }
+    }
+
+    public class MovieUpdateInputModel
+    {
+        public int Id { get; set; }
+
+        public string Description { get; set; }
+
+        public string Name { get; set; }
+    }
+
+    public class MovieUpdatedViewModel
+    {
+        public Movie Movie { get; set; }
+    }
+
+    public class MovieEditInputModel
+    {
+        public int Id { get; set; }
+    }
+
+    public class MovieEditViewModel
+    {
+        public string Description { get; set; }
+
+        public string Name { get; set; }
+    }
+
+    public class MovieListInputModel
+    {
+    }
+
+    public class MovieListViewModel
+    {
+        public ICollection<Movie> Movies { get; set; }
+    }
+}
+
+====
+MovieEdit.spark
+====
+
+<viewdata model="FubuDemo.Web.MovieEditViewModel" />
+<content:title>
+  Movie Edit
+</content:title>
+<h1>Movie Edit</h1>
+
+<Form model="FubuDemo.Web.MovieUpdateInputModel">
+  <ul>
+    <li>
+      <LabelFor property="Name"/>
+      <InputFor property="Name"/>
+    </li>
+    <li>
+      <LabelFor property="Description"/>
+      <InputFor property="Description"/>
+    </li>
+  </ul>
+  <input type="submit" value="Save Movie"/>
+</Form>
+
+
+====
+MovieList.spark
+====
+<viewdata model="FubuDemo.Web.MovieListViewModel" />
+<content:title>
+   Movie List
+</content:title>
+<h1>Movie List</h1>
+
+<ul>
+
+  <for each="var movie in Model.Movies">
+    <li>
+      !{this.LinkTo(new MovieEditInputModel{Id= movie.Id}).Text(movie.Name)}
+    </li>
+  </for>
+</ul>
+
+====
+Registry
+====
+using System;
+using FubuDemo.Web;
+using FubuMVC.Core;
+using FubuMVC.Core.Behaviors;
+using FubuMVC.Core.Runtime;
+using FubuMVC.Core.Urls;
+using FubuMVC.Spark;
+
+namespace FubuDemo.Infrastructure
+{
+    public class FubuMoviesRegistry : FubuRegistry
+    {
+        public FubuMoviesRegistry()
+        {
+            IncludeDiagnostics(true);
+
+            Actions.IncludeClassesSuffixedWithController();
+
+            Routes
+                .HomeIs<MovieListInputModel>()
+                .IgnoreControllerNamespaceEntirely();
+
+            Policies.ConditionallyWrapBehaviorChainsWith<RedirectOnUpdate>(
+                chain => chain.OutputType() == typeof(MovieUpdatedViewModel));
+
+            this.UseSpark();
+
+            Views
+                .TryToAttachWithDefaultConventions();
+        }
+    }
+
+    public class RedirectOnUpdate : IActionBehavior
+    {
+        private readonly IOutputWriter writer;
+        private readonly IUrlRegistry urlRegistry;
+        private readonly IActionBehavior innerBehavior;
+
+        public RedirectOnUpdate(IOutputWriter writer, IUrlRegistry urlRegistry, IActionBehavior innerBehavior)
+        {
+            this.writer = writer;
+            this.urlRegistry = urlRegistry;
+            this.innerBehavior = innerBehavior;
+        }
+
+        //protected override void afterInsideBehavior()
+        //{
+        //    writer.RedirectToUrl(urlRegistry.UrlFor<MovieListInputModel>());
+        //}
+
+        public void Invoke()
+        {
+            innerBehavior.Invoke();
+            writer.RedirectToUrl(urlRegistry.UrlFor<MovieListInputModel>());
+        }
+
+        public void InvokePartial()
+        {
+            innerBehavior.Invoke();
+        }
+    }
+}
+
+====
+
