@@ -106,8 +106,6 @@
     <Compile Include="Core\Movie.cs" />
     <Compile Include="Service\MovieService.cs" />
     <Content Include="Shared\Application.spark" />
-    <Content Include="Web\MovieList.spark" />
-    <Compile Include="Web\MovieController.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -119,7 +117,7 @@
     <Content Include="Shared\_global.spark" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Web\MovieEdit.spark" />
+    <Folder Include="Web\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
