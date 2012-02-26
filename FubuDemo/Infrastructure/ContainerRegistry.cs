@@ -15,9 +15,9 @@ namespace FubuDemo.Infrastructure
                          {
                              var service = new MovieService();
                              service.Add(
-                                 new Movie{Name = "10 things I hate about you", Description = "Awesome"});
+                                 new Movie{Name = "Rocky Horror Picture Show", Description = "Not Scary"});
                              service.Add(
-                                 new Movie{Name = "Flying Arrows", Description = "Has Ninjas"});
+                                 new Movie{Name = "The Lord of the Rings", Description = "Quite long but worth it"});
                              return service;
                          });
         }
