@@ -12,7 +12,7 @@ namespace FubuDemo
         {
             base.Init();
             FubuApplication
-                .For<FubuMoviesRegistry>()
+                .For<FubuDemoRegistry>()
                 .StructureMap(() => new Container(
                     new ContainerRegistry()
                  ))
