@@ -94,7 +94,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Infrastructure\FubuDemoContainerRegistry.cs" />
+    <Compile Include="Infrastructure\ContainerRegistry.cs" />
     <Compile Include="Infrastructure\FubuMoviesRegistry.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

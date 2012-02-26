@@ -14,7 +14,7 @@ namespace FubuDemo
             FubuApplication
                 .For<FubuMoviesRegistry>()
                 .StructureMap(() => new Container(
-                    new FubuDemoContainerRegistry()
+                    new ContainerRegistry()
                  ))
                 .Bootstrap();
         }
