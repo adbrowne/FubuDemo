@@ -7,6 +7,7 @@ namespace FubuDemo.Infrastructure
         public FubuMoviesRegistry()
         {
             IncludeDiagnostics(true);
+            
         }
     }
 }
